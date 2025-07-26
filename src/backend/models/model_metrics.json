@@ -1,0 +1,114 @@
+{
+    "ensemble_metrics": {
+        "confusion_matrix": [
+            [
+                838,
+                322
+            ],
+            [
+                345,
+                1848
+            ]
+        ],
+        "classification_report": "              precision    recall  f1-score   support\n\n         0.0       0.71      0.72      0.72      1160\n         1.0       0.85      0.84      0.85      2193\n\n    accuracy                           0.80      3353\n   macro avg       0.78      0.78      0.78      3353\nweighted avg       0.80      0.80      0.80      3353\n",
+        "best_threshold": 0.40000000000000013,
+        "accuracy": 0.8010736653742917,
+        "precision": 0.8516129032258064,
+        "recall": 0.8426812585499316,
+        "f1_score": 0.8471235388494155,
+        "auc": 0.8810450964668144
+    },
+    "fold_metrics": {
+        "fold_scores": [
+            [
+                0.07288658618927002,
+                0.7326622009277344,
+                0.8565995693206787,
+                0.9310631155967712,
+                0.638746440410614
+            ],
+            [
+                0.051666367799043655,
+                0.7759134769439697,
+                0.8770787119865417,
+                0.9344385862350464,
+                0.7069555521011353
+            ],
+            [
+                0.07050731033086777,
+                0.7505592703819275,
+                0.8600649237632751,
+                0.9254902005195618,
+                0.6727480292320251
+            ],
+            [
+                0.06515740603208542,
+                0.7531692981719971,
+                0.8572757244110107,
+                0.9347133636474609,
+                0.6693272590637207
+            ],
+            [
+                0.07186567783355713,
+                0.7334079146385193,
+                0.8564380407333374,
+                0.939881443977356,
+                0.6328392028808594
+            ]
+        ],
+        "fold_mean": [
+            0.0664166696369648,
+            0.7491424322128296,
+            0.8614913940429687,
+            0.9331173419952392,
+            0.6641232967376709
+        ],
+        "fold_std": [
+            0.007841453958843246,
+            0.015837202924467008,
+            0.00790237302794882,
+            0.004742134124341523,
+            0.02667863826921088
+        ]
+    },
+    "training_date": "2025-06-05 14:53:49",
+    "data_size": 16763,
+    "feature_names": [
+        "daily_amount",
+        "num_transactions",
+        "total_items",
+        "unique_items",
+        "basket_diversity",
+        "avg_purchase_value",
+        "hour_of_day",
+        "is_weekend",
+        "morning_shopper",
+        "evening_shopper",
+        "month",
+        "quarter",
+        "days_since_first",
+        "days_since_prev",
+        "active_days",
+        "engagement_ratio",
+        "recency",
+        "days_between_purchases",
+        "purchase_acceleration",
+        "spending_growth_rate",
+        "prev_amount",
+        "rolling_avg_amount",
+        "rolling_avg_daily_amount",
+        "frequency",
+        "tenure_months",
+        "customer_segment"
+    ],
+    "positive_class_ratio": 0.6540595293045044,
+    "model_parameters": {
+        "n_folds": 5,
+        "batch_size": 32,
+        "initial_learning_rate": 0.001,
+        "class_weights": {
+            "0": 1.4453546022849753,
+            "1": 0.7644510318093718
+        }
+    }
+}

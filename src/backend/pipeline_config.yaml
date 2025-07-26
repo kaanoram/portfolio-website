@@ -1,0 +1,80 @@
+# Apache Beam Pipeline Configuration for Production
+
+# AWS Configuration
+aws:
+  region: us-east-1
+  kinesis:
+    input_stream: ecommerce-transactions
+    output_stream: ecommerce-analytics
+    metrics_stream: ecommerce-analytics-metrics
+    shard_count: 10  # For 1M+ daily transactions
+    retention_period: 24  # hours
+  s3:
+    model_bucket: ecommerce-models-prod
+    checkpoint_bucket: ecommerce-pipeline-checkpoints
+    data_lake_bucket: ecommerce-data-lake
+  dynamodb:
+    customer_table: customer-profiles
+    read_capacity: 1000
+    write_capacity: 500
+
+# Pipeline Configuration
+pipeline:
+  # Processing windows
+  window_duration_seconds: 1
+  allowed_lateness_seconds: 30
+  
+  # Batching
+  batch_size: 100
+  max_batch_wait_ms: 100
+  
+  # Performance
+  parallelism: 50  # Number of parallel workers
+  max_records_per_read: 1000
+  checkpoint_interval_seconds: 60
+  
+  # Error handling
+  max_retry_attempts: 3
+  dead_letter_stream: ecommerce-dlq
+  
+  # Scaling
+  autoscaling:
+    enabled: true
+    min_workers: 5
+    max_workers: 100
+    target_cpu_utilization: 0.7
+
+# Model Configuration
+models:
+  version: v1.0.0
+  ensemble_count: 5
+  prediction_timeout_ms: 100
+  cache_ttl_seconds: 300
+
+# Monitoring Configuration
+monitoring:
+  cloudwatch:
+    namespace: EcommerceAnalytics
+    metrics:
+      - transactions_per_second
+      - prediction_latency_ms
+      - error_rate
+      - unique_customers_per_minute
+    alarms:
+      - name: HighErrorRate
+        metric: error_rate
+        threshold: 0.05
+        evaluation_periods: 2
+      - name: LowThroughput
+        metric: transactions_per_second
+        threshold: 10
+        comparison: LessThanThreshold
+        evaluation_periods: 5
+
+# Performance Targets
+performance_targets:
+  daily_transaction_capacity: 1000000
+  peak_transactions_per_second: 50
+  average_latency_ms: 100
+  p99_latency_ms: 500
+  error_rate_threshold: 0.01

@@ -1,0 +1,35 @@
+{
+  "test_summary": {
+    "target_connections": 100,
+    "successful_connections": 100,
+    "failed_connections": 0,
+    "success_rate": "100.0%",
+    "total_duration_seconds": 31.04,
+    "test_timestamp": "2025-06-07T09:43:32.317289"
+  },
+  "connection_metrics": {
+    "avg_connection_time": 11.117,
+    "min_connection_time": 1.166,
+    "max_connection_time": 23.779,
+    "p95_connection_time": 23.178,
+    "p99_connection_time": 23.779
+  },
+  "message_metrics": {
+    "total_messages_received": 13400,
+    "avg_messages_per_connection": 134,
+    "avg_latency_ms": 0,
+    "p50_latency_ms": 0,
+    "p95_latency_ms": 0,
+    "p99_latency_ms": 0
+  },
+  "performance_assessment": {
+    "meets_connection_target": false,
+    "meets_latency_target": false,
+    "meets_p99_target": false,
+    "production_ready": false,
+    "recommendations": [
+      "Scale up to handle 1900 more connections",
+      "Optimize message processing to reduce latency"
+    ]
+  }
+}
