@@ -69,7 +69,7 @@ export const projectsData = [
       "2000+ concurrent users supported",
       "40% improvement over baseline"
     ],
-    githubLink: "https://github.com/yourusername/ecommerce-analytics",
+    githubLink: "https://github.com/kaanoram/portfolio-website",
     demoLink: "/projects/ecommerce-analytics",
     images: [
       {
