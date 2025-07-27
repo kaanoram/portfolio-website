@@ -1,14 +1,9 @@
 import { useState, useEffect } from 'react';
 
+const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || 'https://your-api-gateway-url.execute-api.us-east-1.amazonaws.com';
+
 export const useFraudAnalytics = () => {
-  const [metrics, setMetrics] = useState({
-    transactionsProcessed: "847K",
-    fraudDetected: "1,247",
-    accuracy: "96.8%",
-    falsePositiveRate: "2.1%",
-    avgProcessingTime: "12ms",
-    riskScore: "23.4"
-  });
+  const [metrics, setMetrics] = useState(null);
 
   const [transactions, setTransactions] = useState([]);
   const [riskScores, setRiskScores] = useState([]);
@@ -16,36 +11,42 @@ export const useFraudAnalytics = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const simulateConnection = () => {
-      setTimeout(() => {
-        setConnectionStatus('connected');
+    const fetchMetrics = async () => {
+      try {
+        const response = await fetch(`${API_ENDPOINT}/api/fraud/metrics`);
+        if (!response.ok) throw new Error('Failed to fetch fraud metrics');
         
-        const interval = setInterval(() => {
-          setMetrics(prev => ({
-            ...prev,
-            transactionsProcessed: `${Math.floor(847 + Math.random() * 10)}K`,
-            fraudDetected: `${Math.floor(1247 + Math.random() * 50)}`,
-            accuracy: `${(96.8 + (Math.random() - 0.5) * 0.4).toFixed(1)}%`,
-            falsePositiveRate: `${(2.1 + (Math.random() - 0.5) * 0.3).toFixed(1)}%`,
-            avgProcessingTime: `${Math.floor(12 + (Math.random() - 0.5) * 4)}ms`,
-            riskScore: `${(23.4 + (Math.random() - 0.5) * 5).toFixed(1)}`
-          }));
+        const data = await response.json();
+        setMetrics(data);
+        setConnectionStatus('connected');
+        setError(null);
+        
+        const newTransactions = Array.from({ length: 5 }, (_, i) => ({
+          id: `txn_${Date.now()}_${i}`,
+          amount: Math.floor(Math.random() * 5000) + 100,
+          riskScore: Math.floor(Math.random() * 100),
+          status: Math.random() > 0.1 ? 'approved' : 'flagged',
+          timestamp: new Date(Date.now() - Math.random() * 3600000).toISOString(),
+          location: ['New York', 'London', 'Tokyo', 'Sydney'][Math.floor(Math.random() * 4)]
+        }));
+        setTransactions(prev => [...newTransactions, ...prev.slice(0, 45)]);
 
-          const newTransaction = {
-            id: `TXN-${Math.floor(Math.random() * 900000) + 100000}`,
-            amount: (Math.random() * 5000).toFixed(2),
-            riskScore: Math.floor(Math.random() * 100),
-            timestamp: 'Just now'
-          };
-          
-          setTransactions(prev => [newTransaction, ...prev.slice(0, 9)]);
-        }, 4000);
-
-        return () => clearInterval(interval);
-      }, 1000);
+        const newRiskScores = Array.from({ length: 20 }, () => ({
+          timestamp: Date.now() - Math.random() * 3600000,
+          score: Math.random() * 100
+        }));
+        setRiskScores(newRiskScores);
+        
+      } catch (err) {
+        setError(err.message);
+        setConnectionStatus('disconnected');
+        console.error('Fraud analytics fetch error:', err);
+      }
     };
 
-    simulateConnection();
+    fetchMetrics();
+    const interval = setInterval(fetchMetrics, 10000);
+    return () => clearInterval(interval);
   }, []);
 
   return {
