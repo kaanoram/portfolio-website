@@ -69,7 +69,7 @@ export const projectsData = [
       "2000+ concurrent users supported",
       "40% improvement over baseline"
     ],
-    githubLink: "https://github.com/yourusername/ecommerce-analytics",
+    githubLink: "https://github.com/kaanoram/portfolio-website",
     demoLink: "/projects/ecommerce-analytics",
     images: [
       {
@@ -110,8 +110,8 @@ export const projectsData = [
       "60% reduction in false alerts",
       "50+ KPIs tracked in real-time"
     ],
-    githubLink: "#",
-    demoLink: "#",
+    githubLink: "https://github.com/kaanoram/portfolio-website",
+    demoLink: "/projects/sales-analytics",
     images: [
       {
         url: "/api/placeholder/800/400",
@@ -147,8 +147,8 @@ export const projectsData = [
       "50ms average latency",
       "40% faster training time"
     ],
-    githubLink: "#",
-    demoLink: "#",
+    githubLink: "https://github.com/kaanoram/portfolio-website",
+    demoLink: "/projects/fraud-detection",
     images: [
       {
         url: "/api/placeholder/800/400",

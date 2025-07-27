@@ -1,7 +1,7 @@
 export const projectDetails = {
   title: "Real-Time E-commerce Analytics",
   description: "Experience a live analytics dashboard processing e-commerce transactions in real-time with ML-powered predictions",
-  githubLink: "https://github.com/yourusername/ecommerce-analytics",
+  githubLink: "https://github.com/kaanoram/portfolio-website",
   demoLink: "#"
 };
 

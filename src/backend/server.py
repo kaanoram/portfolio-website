@@ -293,7 +293,7 @@ class ConnectionManager:
             features[25] = random.randint(0, 3)  # customer_segment
             
             # Scale features
-            if hasattr(self, 'scaler'):
+            if hasattr(self, 'scaler') and self.scaler is not None:
                 features_scaled = self.scaler.transform(features.reshape(1, -1))[0]
             else:
                 features_scaled = features
