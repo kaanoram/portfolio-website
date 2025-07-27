@@ -1,14 +1,9 @@
 import { useState, useEffect } from 'react';
 
+const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || 'https://your-api-gateway-url.execute-api.us-east-1.amazonaws.com';
+
 export const useSalesAnalytics = () => {
-  const [metrics, setMetrics] = useState({
-    totalRevenue: "$2.4M",
-    salesGrowth: "18.3%",
-    avgDealSize: "$45.2K",
-    conversionRate: "24.7%",
-    activeLeads: "1,247",
-    pipelineValue: "$8.9M"
-  });
+  const [metrics, setMetrics] = useState(null);
 
   const [processingStats, setProcessingStats] = useState({
     recordsProcessed: "2.1M",
@@ -22,35 +17,38 @@ export const useSalesAnalytics = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const simulateConnection = () => {
-      setTimeout(() => {
-        setConnectionStatus('connected');
+    const fetchMetrics = async () => {
+      try {
+        const response = await fetch(`${API_ENDPOINT}/api/sales/metrics`);
+        if (!response.ok) throw new Error('Failed to fetch sales metrics');
         
-        const interval = setInterval(() => {
-          setMetrics(prev => ({
-            ...prev,
-            totalRevenue: `$${(2.4 + Math.random() * 0.2).toFixed(1)}M`,
-            salesGrowth: `${(18.3 + (Math.random() - 0.5) * 2).toFixed(1)}%`,
-            avgDealSize: `$${(45.2 + (Math.random() - 0.5) * 5).toFixed(1)}K`,
-            conversionRate: `${(24.7 + (Math.random() - 0.5) * 2).toFixed(1)}%`,
-            activeLeads: `${Math.floor(1247 + (Math.random() - 0.5) * 100)}`,
-            pipelineValue: `$${(8.9 + Math.random() * 0.5).toFixed(1)}M`
-          }));
-
-          setProcessingStats(prev => ({
-            ...prev,
-            recordsProcessed: `${(2.1 + Math.random() * 0.1).toFixed(1)}M`,
-            dataAccuracy: `${(99.7 + (Math.random() - 0.5) * 0.2).toFixed(1)}%`,
-            etlLatency: `${(2.3 + (Math.random() - 0.5) * 0.5).toFixed(1)}s`,
-            errorRate: `${(0.03 + Math.random() * 0.02).toFixed(2)}%`
-          }));
-        }, 3000);
-
-        return () => clearInterval(interval);
-      }, 1000);
+        const data = await response.json();
+        setMetrics(data);
+        setConnectionStatus('connected');
+        setError(null);
+        
+        const newAnomalies = [
+          {
+            id: Date.now(),
+            type: 'Revenue Spike',
+            severity: 'medium',
+            description: 'Unusual revenue increase detected in Q4 data',
+            timestamp: new Date().toISOString(),
+            confidence: Math.random() * 0.3 + 0.7
+          }
+        ];
+        setAnomalies(newAnomalies);
+        
+      } catch (err) {
+        setError(err.message);
+        setConnectionStatus('disconnected');
+        console.error('Sales analytics fetch error:', err);
+      }
     };
 
-    simulateConnection();
+    fetchMetrics();
+    const interval = setInterval(fetchMetrics, 10000);
+    return () => clearInterval(interval);
   }, []);
 
   return {

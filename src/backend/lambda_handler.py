@@ -235,6 +235,43 @@ def main(event, context):
                 'body': json.dumps(metrics)
             }
             
+        elif path == '/api/sales/metrics':
+            return {
+                'statusCode': 200,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                'body': json.dumps({
+                    'totalRevenue': f"${random.uniform(2.0, 3.0):.1f}M",
+                    'salesGrowth': f"{random.uniform(15, 25):.1f}%",
+                    'avgDealSize': f"${random.uniform(40, 50):.1f}K",
+                    'conversionRate': f"{random.uniform(12, 18):.1f}%",
+                    'pipelineValue': f"${random.uniform(8, 12):.1f}M",
+                    'recordsProcessed': f"{random.uniform(1.8, 2.5):.1f}M",
+                    'dataAccuracy': f"{random.uniform(99.5, 99.9):.1f}%",
+                    'etlLatency': f"{random.uniform(2, 4):.1f}s",
+                    'errorRate': f"{random.uniform(0.01, 0.05):.2f}%"
+                })
+            }
+            
+        elif path == '/api/fraud/metrics':
+            return {
+                'statusCode': 200,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                'body': json.dumps({
+                    'transactionsProcessed': f"{random.randint(800, 900)}K",
+                    'fraudDetected': f"{random.randint(1200, 1300)}",
+                    'accuracy': f"{random.uniform(96, 98):.1f}%",
+                    'falsePositiveRate': f"{random.uniform(1.5, 2.5):.1f}%",
+                    'avgProcessingTime': f"{random.randint(45, 65)}ms",
+                    'riskScore': f"{random.uniform(20, 30):.1f}"
+                })
+            }
+            
         elif path == '/api/capabilities':
             # Return system capabilities (for portfolio display)
             return {
